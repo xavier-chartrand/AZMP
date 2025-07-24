@@ -1,0 +1,48 @@
+#+TITLE:        Présentation des données de vagues AZMP
+#+AUTHOR:       Xavier Chartrand
+#+DATE:         02-12-2024
+#+LATEX_CLASS:  org-latex-report
+#+LATEX_HEADER: \graphicspath{{Figures/}}
+#+OPTIONS:      ^:{}
+
+* Réseau AZMP
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=44pc]{Figures/reseau_azmp.png}}
+\caption{}
+\end{figure}
+
+\begin{itemize}
+\item Bouées de vague (IML-4-6-7-10-11-12-14) \\
+\item Hydrophones (IML-13-15-16-17)
+\end{itemize}
+
+* Traitement des données
+** Ancien contrôleur
+L'ancien contrôleur comprend l'ensemble des bouées avant 2023. En 2023, un
+nouveau contrôleur a été installée sur la bouée IML-4, et pour les années à
+suivre. Ce nouveau contrôleur sera installée sur les bouées IML-11 et
+AZMP-STA27 en 2024. Éventuellement, le MPO vise à installer ce nouveau
+contrôleur sur l'ensemble des bouées du réseau.
+
+L'ancien et le nouveau contrôleur ont des similitudes, mais ils ne mesurent
+pas le champ de vagues de la même façon. Les deux utilisent le même moniteur
+de vagues qui consistent en un accéléromètre trois axes installé sur la
+bouée. Aucune correction n'est apportée aux accélérations pour prendre en
+compte ses mouvements rotatoires autour de ses trois axes. La correction doit
+être faite séparément, à l'aide de données fournies par un compas séparément
+monté sur le contrôleur. L'ancienne version utilise le compas XX et la
+nouvelle, le compas YY
+%
+** Champ de vagues IML-4 2023
+Hauteur significative versus amplitude du vent
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=44pc]{Figures/windwave_magnitude_iml-4_2023.png}}
+\end{figure} ~\\[12pt]
+%
+Direction des vagues versus direction du vent
+\begin{figure}[H]
+\centering
+\makebox[\textwidth][c]{\includegraphics[width=44pc]{Figures/windwave_direction_iml-4_2023.png}}
+\end{figure}
