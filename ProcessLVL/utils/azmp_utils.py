@@ -344,19 +344,15 @@ def writeLvl0(lvl_d,qfst_d):
     rmg       = lvl_d['Wave_Monitor']['Remove_Gravity']
 
     # Check for auxiliary variables to omit depending on buoy type
-    if buoy_type.lower()=='metis':
-        aux_bad_keys = ['ADCP_Vel_Error',
-                        'ADCP_Vel_U',
-                        'ADCP_Vel_V',
-                        'ADCP_Vel_W',
-                        'Buoy_Pitching_STD',
-                        'Buoy_Rolling_STD',
-                        'Buoy_Tilting',
-                        'Buoy_Tilting_STD',
-                        'Water_Discharge']
-    elif buoy_type.lower()=='viking':
-        aux_bad_keys = ['ADCP_Direction',
-                        'ADCP_Dpeed']
+    aux_bad_keys = ['ADCP_Vel_Error',
+                    'ADCP_Vel_U',
+                    'ADCP_Vel_V',
+                    'ADCP_Vel_W',
+                    'Buoy_Pitching_STD',
+                    'Buoy_Rolling_STD',
+                    'Buoy_Tilting',
+                    'Buoy_Tilting_STD',
+                    'Water_Discharge']
 
     # Open auxiliary NetCDF file, retrieve variables and set up attributes
     DSa      = open_dataset(aux_file,engine='netcdf4')
@@ -371,7 +367,6 @@ def writeLvl0(lvl_d,qfst_d):
     for k in aux_keys: aux_d[k]['Raw'] = copy(DSa[k])
 
     # Add good convention signs (in radian) for angles of orientation
-    # For buoy heading, add magnetic declination if necessary
     aux_d['Buoy_Heading']['Raw']  = (-1)**(hpr_ms[0])*pi/180*\
                                     copy(aux_d['Buoy_Heading']['Raw'])\
                                   + magdec*pi/180
@@ -379,6 +374,10 @@ def writeLvl0(lvl_d,qfst_d):
                                     copy(aux_d['Buoy_Pitching']['Raw'])
     aux_d['Buoy_Rolling']['Raw']  = (-1)**(hpr_ms[2])*pi/180*\
                                     copy(aux_d['Buoy_Rolling']['Raw'])
+
+    # For auxiliary directional variables, add magnetic declination if needed
+    aux_d['Buoy_Heading']['Raw']   += magdec*pi/180
+    aux_d['Wind_Provenance']['Raw']+= magdec
 
     # Get raw timestamps and dates from acceleration files
     tfrmt    = '%d-%02g-%02g %02g:%02g:00'
@@ -499,7 +498,12 @@ def writeLvl0(lvl_d,qfst_d):
 
     # Swap buoy angle orientation from radian to degree
     for k in ['Buoy_Heading','Buoy_Pitching','Buoy_Rolling']:
-        aux_d[k]['Reg'] = copy(aux_d[k]['Reg'])*180/pi%360
+        aux_d[k]['Reg'] = copy(180/pi*aux_d[k]['Reg'])%360
+
+    # Remap angles of orientation to the -180,180 degree interval
+    for k in ['Buoy_Pitching','Buoy_Rolling']:
+        iflip                  = where(aux_d[k]['Reg']>180)
+        aux_d[k]['Reg'][iflip] = copy(aux_d[k]['Reg'][iflip]-360)
 
     ## QUALITY CONTROL FOR SHORT-TERM ACCELERATION TIME SERIES
     # Format ST test dictionnaries for each variable

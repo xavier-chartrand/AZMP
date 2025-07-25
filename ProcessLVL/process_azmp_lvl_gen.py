@@ -144,15 +144,23 @@ fcut = getFrequency(2*pi/C0,H)
 # XYZ index
 xyz_cartesian_index = [1,0,2]
 
-# Get magnetic declination.
+# Get magnetic declination
 # /*
-# Magnetic declination is added for iml-4 2023, solely, as it was not taken
-# into account during acquisition. Magnetic declination value is estimated
-# with latitude, longitude = 48.6667 N, 68.5811 W, on 2024-08-01, from:
+# Buoy heading is prior corrected for magnetic declination, for METIS buoys
+# For VIKING ones, a magnetic declination value could be estimated, by
+# specifiyng latitude, longitude and epoch, from:
 #  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
 # */
-if (year==2023 and buoy=='iml-4'): magdec = -16.5
-else:                              magdec = 0
+magdec = 0
+
+# Get magnetic declination
+# /*
+# Magnetic declination is prior corrected for iml-4 2023 and 2024.
+# For previous years, a magnetic declination value could be estimated with
+# with latitude, longitude = 48.6667 N, 68.5811 W, on a specified date, from:
+#  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
+# */
+magdec = 0
 
 # Get angle convention for the specific controller (0: positive, 1: negative)
 # /*

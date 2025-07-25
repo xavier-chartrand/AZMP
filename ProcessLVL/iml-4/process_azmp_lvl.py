@@ -154,9 +154,9 @@ xyz_cartesian_index = [1,0,2]
 
 # Get magnetic declination
 # /*
-# Magnetic declination could prior be corrected for iml-4 2023 and 2024.
-# For previous years, a magnetic declination value could be estimated with
-# with latitude, longitude = 48.6667 N, 68.5811 W, on a specified date, from:
+# Buoy heading is prior corrected for magnetic declination, for METIS buoys
+# For VIKING ones, a magnetic declination value could be estimated, by
+# specifiyng latitude, longitude and epoch, from:
 #  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
 # */
 magdec = 0
