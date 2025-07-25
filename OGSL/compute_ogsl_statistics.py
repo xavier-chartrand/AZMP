@@ -53,7 +53,7 @@ for station in station_list:
     # Initialize outputs
     date,atemp,sig,pres,sal,temp,wspd,wgst,hm0,tm01 = [[] for _ in range(10)]
 
-    # Append data
+    # Append data, and convert wind speed from knots to meter per second
     for file in f_list:
         DS = pd.read_csv(file,delimiter=',',skipinitialspace=True)
         date.append(DS[header_k['Date']])
@@ -62,8 +62,8 @@ for station in station_list:
         pres.append(DS[header_k['Pressure']])
         sal.append(DS[header_k['Salinity']])
         temp.append(DS[header_k['Temperature']])
-        wspd.append(DS[header_k['WindSpeed']])
-        wgst.append(DS[header_k['WindGusts']])
+        wspd.append(DS[header_k['WindSpeed']]*467/900)
+        wgst.append(DS[header_k['WindGusts']]*467/900)
         hm0.append(DS[header_k['Hm0']])
         tm01.append(DS[header_k['Tm01']])
 

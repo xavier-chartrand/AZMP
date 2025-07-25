@@ -27,7 +27,7 @@ plt.rcParams.update({
 ## MAIN
 # Parameters
 buoy      = 'iml-4'
-year      = 2023
+year      = 2024
 month     = range(5,13)
 lvl0_dir  = '../../lvl0/'
 lvl2_dir  = '../../lvl2/'

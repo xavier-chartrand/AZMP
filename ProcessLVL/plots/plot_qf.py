@@ -27,7 +27,7 @@ plt.rcParams.update({
 ## MAIN
 # Parameters
 buoy      = 'iml-4'
-year      = 2020
+year      = 2024
 month     = range(5,12)
 lvl2_dir  = '../../lvl2/'
 lvl2_file = 'wavebuoy_%s_lvl2_waveparameters.nc'%buoy.replace('-','')
