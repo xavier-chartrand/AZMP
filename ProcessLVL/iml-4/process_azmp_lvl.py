@@ -107,7 +107,7 @@ clb        = 600
 #cbd        = '2022-05-18T00:00:00'
 #ced        = '2022-10-31T14:30:00'
 #cbd        = '2023-05-12T13:00:00'
-#ced        = '2023-10-23T05:30:00'
+#ced        = '2023-10-23T05:00:00'
 cbd        = '2024-07-23T12:00:00'
 ced        = '2024-11-02T19:30:00'
 
@@ -152,15 +152,14 @@ fcut = getFrequency(2*pi/C0,H)
 # XYZ index
 xyz_cartesian_index = [1,0,2]
 
-# Get magnetic declination.
+# Get magnetic declination
 # /*
-# Magnetic declination is added for iml-4 2023, solely, as it was not taken
-# into account during acquisition. Magnetic declination value is estimated
-# with latitude, longitude = 48.6667 N, 68.5811 W, on 2024-08-01, from:
+# Magnetic declination could prior be corrected for iml-4 2023 and 2024.
+# For previous years, a magnetic declination value could be estimated with
+# with latitude, longitude = 48.6667 N, 68.5811 W, on a specified date, from:
 #  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
 # */
-if (year==2023 and buoy=='iml-4'): magdec = -16.5
-else:                              magdec = 0
+magdec = 0
 
 # Get angle convention for the specific controller (0: positive, 1: negative)
 # /*
@@ -354,7 +353,7 @@ qflt_d = {'Test_14':{'Do_Test':False,
                      'Nf':5,
                      'eps':bwp_eps,
                      'QF':testinit},
-          'Test_17':{'Do_Test':True,
+          'Test_17':{'Do_Test':False,
                      'freq':'to_update',
                      'csd_dep':'to_update',
                      'imin':freq_min,
