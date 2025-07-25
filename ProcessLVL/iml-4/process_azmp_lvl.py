@@ -96,7 +96,7 @@ from azmp_utils import *
 # lvl2_file:    'lvl2' file to write
 # ---------- #
 buoy       = 'iml-4'
-year       = 2023
+year       = 2024
 H          = 335
 clb        = 600
 
@@ -106,10 +106,10 @@ clb        = 600
 #ced        = '2021-11-07T13:00:00'
 #cbd        = '2022-05-18T00:00:00'
 #ced        = '2022-10-31T14:30:00'
-cbd        = '2023-05-12T13:00:00'
-ced        = '2023-10-23T05:30:00'
-#cbd        = '2024-07-23T12:00:00'
-#ced        = '2024-11-02T19:30:00'
+#cbd        = '2023-05-12T13:00:00'
+#ced        = '2023-10-23T05:30:00'
+cbd        = '2024-07-23T12:00:00'
+ced        = '2024-11-02T19:30:00'
 
 filt_bool  = True
 filt_type  = 'hp'
@@ -157,7 +157,8 @@ xyz_cartesian_index = [1,0,2]
 # Magnetic declination is added for iml-4 2023, solely, as it was not taken
 # into account during acquisition. Magnetic declination value is estimated
 # with latitude, longitude = 48.6667 N, 68.5811 W, on 2024-08-01, from:
-#  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml ,
+#  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
+# */
 if (year==2023 and buoy=='iml-4'): magdec = -16.5
 else:                              magdec = 0
 
@@ -165,7 +166,6 @@ else:                              magdec = 0
 # /*
 # Tilt should be included as a second-order correction
 # */
-
 if (year==2023 and buoy=='iml-4')\
 or (year>2023 and buoy in ['iml-4','iml-11']):
     buoy_type        = 'metis'                  # controller type
@@ -259,8 +259,8 @@ lvl_d = {'Info':{'Id':buoy,
                  'Controller_Type':buoy_type,
                  'Corrected_Date_Begin':cbd,
                  'Corrected_Date_End':ced,
-                 'Sampling_Frequency':fs,
                  'Magnetic_Declination':magdec,
+                 'Sampling_Frequency':fs,
                  'Wave_Record_Length':10*60,
                  'Aux_Record_Length':30*60,
                  'Wave_Regular_Length':15*60,

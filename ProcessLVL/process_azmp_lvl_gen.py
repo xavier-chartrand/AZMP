@@ -65,8 +65,8 @@ W -y <----|----> +y E
 from azmp_utils import *
 
 ## BEGIN STREAM EDITOR
-#  CHECK FILE ../PositionVIKING.pdf for "H","cbl"
-#  CHECK FILE <buoy>/good_timestamps.txt for "cbd","ced"
+#  CHECK FILE ../../PositionVIKING.pdf for "H","cbl"
+#  CHECK FILE good_timestamps.txt for "cbd","ced"
 # Information about the buoy
 # buoy:         Buoy station to process (iml-[4,6,7,10,11,12,14])
 # year:         Year to process
@@ -97,8 +97,8 @@ from azmp_utils import *
 # ---------- #
 buoy       = 'iml-X'
 year       = XXXX
-H          = XXX
-clb        = XXX
+H          = X
+clb        = X
 
 cbd        = 'XXXX-XX-XXTXX:XX:XX'
 ced        = 'XXXX-XX-XXTXX:XX:XX'
@@ -143,6 +143,16 @@ fcut = getFrequency(2*pi/C0,H)
 
 # XYZ index
 xyz_cartesian_index = [1,0,2]
+
+# Get magnetic declination.
+# /*
+# Magnetic declination is added for iml-4 2023, solely, as it was not taken
+# into account during acquisition. Magnetic declination value is estimated
+# with latitude, longitude = 48.6667 N, 68.5811 W, on 2024-08-01, from:
+#  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
+# */
+if (year==2023 and buoy=='iml-4'): magdec = -16.5
+else:                              magdec = 0
 
 # Get angle convention for the specific controller (0: positive, 1: negative)
 # /*
@@ -241,6 +251,7 @@ lvl_d = {'Info':{'Id':buoy,
                  'Controller_Type':buoy_type,
                  'Corrected_Date_Begin':cbd,
                  'Corrected_Date_End':ced,
+                 'Magnetic_Declination':magdec,
                  'Sampling_Frequency':fs,
                  'Wave_Record_Length':10*60,
                  'Aux_Record_Length':30*60,
