@@ -7,10 +7,12 @@
 Plot the quality flag histogram for windwave data
 '''
 
-# Custom utilities
-from azmp_utils import *
-# Functions
-from collections import Counter
+# Modules
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import xarray as xr
 
 # Matplotlib settings and TeX environment
 plt.rcParams.update({
@@ -25,28 +27,28 @@ plt.rcParams.update({
 ## MAIN
 # Parameters
 buoy      = 'iml-4'
-year      = 2023
+year      = 2020
 month     = range(5,12)
-lvl1_dir  = '../lvl1/'
-lvl1_file = '%s_lvl1_windwave.nc'%buoy.replace('-','')
+lvl2_dir  = '../../lvl2/'
+lvl2_file = 'wavebuoy_%s_lvl2_waveparameters.nc'%buoy.replace('-','')
 
 # Update files and directories with buoy and year
-lvl1_dir  = '%s%s/'%(lvl1_dir,buoy)
-lvl1_file = '%s%s_%d.nc'%(lvl1_dir,lvl1_file.split('.nc')[0],year)
+lvl2_dir  = '%s%s/'%(lvl2_dir,buoy)
+lvl2_file = '%s%s_%d.nc'%(lvl2_dir,lvl2_file.split('.nc')[0],year)
 
 # Load data
-DS1       = xr.open_dataset(lvl1_file,engine='netcdf4')
-time      = np.array([pd.Timestamp(t).timestamp() for t in DS1.Time.values])
-hm0_qf    = DS1.Hm0_QF.values
-tmn10_qf  = DS1['Tm-10_QF'].values
-tm01_qf   = DS1.Tm01_QF.values
-tm02_qf   = DS1.Tm01_QF.values
-freqp_qf  = DS1.Frequency_Peak_QF.values
-wnump_qf  = DS1.Wavenumber_Peak_QF.values
-thetam_qf = DS1.Theta_Mean_QF.values
-thetap_qf = DS1.Theta_Peak_QF.values
-sigmam_qf = DS1.Sigma_Mean_QF.values
-sigmap_qf = DS1.Sigma_Peak_QF.values
+DS2       = xr.open_dataset(lvl2_file,engine='netcdf4')
+time      = np.array([pd.Timestamp(t).timestamp() for t in DS2.Time.values])
+hm0_qf    = DS2.Hm0.QC
+tmn10_qf  = DS2['Tm-10'].QC
+tm01_qf   = DS2.Tm01.QC
+tm02_qf   = DS2.Tm01.QC
+freqp_qf  = DS2.Frequency_Peak.QC
+wnump_qf  = DS2.Wavenumber_Peak.QC
+thetam_qf = DS2.Theta_Mean.QC
+thetap_qf = DS2.Theta_Peak.QC
+sigmam_qf = DS2.Sigma_Mean.QC
+sigmap_qf = DS2.Sigma_Peak.QC
 dim       = len(time)
 
 # Count quality flag occurences
@@ -159,8 +161,6 @@ ax10.set_ylabel(r'count',fontsize=24)
  for ax in axs.ravel()]
 [ax.set_yticklabels(ylab_tcks) for ax in axs[:,0]]
 [ax.set_yticklabels([]) for ax in axs[:,1:].ravel()]
-
-# Text
 
 # Title
 fig.suptitle('%s %d quality flag overview'%(buoy,year),fontsize=30)

@@ -328,6 +328,7 @@ def writeLvl0(lvl_d,qfst_d):
     buoy_type = lvl_d['Info']['Controller_Type']
     cdb       = lvl_d['Info']['Corrected_Date_Begin']
     cde       = lvl_d['Info']['Corrected_Date_End']
+    magdec    = lvl_d['Info']['Magnetic_Declination']
     rec_len   = lvl_d['Info']['Wave_Record_Length']
     wreg_dt   = lvl_d['Info']['Wave_Regular_Length']
     areg_dt   = lvl_d['Info']['Aux_Regular_Length']
@@ -370,8 +371,10 @@ def writeLvl0(lvl_d,qfst_d):
     for k in aux_keys: aux_d[k]['Raw'] = copy(DSa[k])
 
     # Add good convention signs (in radian) for angles of orientation
+    # For buoy heading, add magnetic declination if necessary
     aux_d['Buoy_Heading']['Raw']  = (-1)**(hpr_ms[0])*pi/180*\
-                                    copy(aux_d['Buoy_Heading']['Raw'])
+                                    copy(aux_d['Buoy_Heading']['Raw'])\
+                                  + magdec*pi/180
     aux_d['Buoy_Pitching']['Raw'] = (-1)**(hpr_ms[1])*pi/180*\
                                     copy(aux_d['Buoy_Pitching']['Raw'])
     aux_d['Buoy_Rolling']['Raw']  = (-1)**(hpr_ms[2])*pi/180*\
