@@ -2,17 +2,15 @@
 # Author: Xavier Chartrand
 # Email : x.chartrand@protonmail.me
 #         xavier.chartrand@ec.gc.ca
+#         xavier.chartrand@uqar.ca
 
 '''
 Copy and parse AZMP data 'lvl0', 'lvl1' and 'lvl2' to NetCDF.
 
 Directional moments (a1,b1,a2,b2) are computed from the raw acceleration data.
 
-Directional spectra are computed for the specified date, hour and minutes,
-using a weighted Fourier series.
-
 A Butterworth filter may be applied to filter low or high frequencies, or
-equivalently, low or high scales using the linear dispersion relation for
+equivalently, low or high wavenumbers using the linear dispersion relation for
 surface waves to associate an equivalent frequency.
 
 VIKING controller (Before 2023, all buoy):
@@ -80,17 +78,19 @@ from azmp_utils import *
 # 'filt_p'
 # filt_bool:    Flag to apply ButterWorth filter
 # filt_type:    ButterWorth filter type (lowpass 'lp' or highpass 'hp')
-# filt_data:    Cutoff type (frequency 'freq' or length 'length')
+# filt_data:    Cutoff type (frequency 'freq' or wavenumber 'wnum')
 # C0:           Cutoff parameter depending on 'filt_data'
 
 # Data files and directories
-# rdata_dir:    Raw data directory
+# adata_dir:    Auxiliary data directory
 # odata_dir:    OGSL data directory
+# rdata_dir:    Raw data directory
 # lvl0_dir:     'lvl0' data directory
 # lvl1_dir:     'lvl1' data directory
 # lvl2_dir:     'lvl2' data directory
-# rdata_file:   Raw data files to read
+# adata_file:   Auxiliary data file to read
 # odata_file:   OGSL data file to read
+# rdata_file:   Raw data files to read
 # lvl0_file:    'lvl0' file to write
 # lvl1_file:    'lvl1' file to write
 # lvl2_file:    'lvl2' file to write
@@ -105,18 +105,18 @@ ced        = 'XXXX-XX-XXTXX:XX:XX'
 
 filt_bool  = True
 filt_type  = 'hp'
-filt_data  = 'length'
+filt_data  = 'wnum'
 C0         = 2.E2
 
 adata_dir  = '../../AuxiliaryData/'
-rdata_dir  = '../../RawData/'
 odata_dir  = '../../OGSL/statistics/'
+rdata_dir  = '../../RawData/'
 lvl0_dir   = '../../lvl0/'
 lvl1_dir   = '../../lvl1/'
 lvl2_dir   = '../../lvl2/'
 adata_file = 'raw_auxiliary.nc'
-rdata_file = 'D.txt'
 odata_file = 'iml-4_statistics.csv'
+rdata_file = 'D.txt'
 lvl0_file  = ['lvl0_accelerations.nc','lvl0_auxiliaryvariables.nc']
 lvl1_file  = 'lvl1_wavespectra.nc'
 lvl2_file  = 'lvl2_waveparameters.nc'
