@@ -61,7 +61,7 @@ def getBWFilter(freq,filt_p,n=5,g=9.81):
     (default order: n=5).
 
     "F_Type"    is the filter type, low pass 'lp', high pass 'hp' ;
-    "D_Type"    is the cutoff type, length scale 'length', frequency 'freq' ;
+    "D_Type"    is the cutoff type, wavenumber 'wnum', frequency 'freq' ;
     "C0"        is the cutoff value.
     '''
 
@@ -75,16 +75,16 @@ def getBWFilter(freq,filt_p,n=5,g=9.81):
     # Return "ones" if no filtering specified
     if not bool_filt: return ones(len(freq))
 
-    # Raise error if water's depth is missing for 'dtype'=='length'
-    if dtype=='length' and not H:
-        raise TypeError("'H' missing for data type 'length'")
+    # Raise error if water's depth is missing for 'dtype'=='wnum'
+    if dtype=='wnum' and not H:
+        raise TypeError("'H' missing for data type 'wnum'")
 
     # Define the sign of low- or high-pass filter
     fsgn = 1 if ftype=='lp' else -1 if ftype=='hp' else 0
 
-    # Swap cutoff length to frequency if specified, using dispersion relation
-    # for linear surface gravity waves
-    c0 = (tanh(2*pi*H/c0)*g/2/pi/c0)**(0.5) if dtype=='length' else c0
+    # Swap cutoff wavenumner to frequency if specified, using the dispersion
+    # relation for linear surface gravity waves
+    c0 = (tanh(2*pi*H/c0)*g/2/pi/c0)**(0.5) if dtype=='wnum' else c0
 
     # Generate Butterworth filter
     filt = fsgn/(1 + (freq/freq[abs(freq-c0).argmin()])**(2*n))**(0.5)\
@@ -675,7 +675,7 @@ def writeLvl1(lvl_d,qfst_d):
     wnum = hstack([0,[getWavenumber(o,H) for o in om[1:]]])
 
     # Retrieve filtering information
-    if d_type=='length':
+    if d_type=='wnum':
         wcut = 2*pi/lvl_d['Filtering']['C0']
         fcut = getFrequency(wcut,H)
     elif d_type=='freq':
