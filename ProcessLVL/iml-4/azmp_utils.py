@@ -254,7 +254,7 @@ def getFreqMoment(Ef,freq,n):
     '''
     Compute the "nth" order statistical frequency moment.
 
-    "freq"      is the frequency (diff(freq) must be a constant).
+    "freq"      is the frequency sampled constantly.
     '''
 
     return iTrapz1o(Ef*freq**n,diff(freq)[0],0)[-1]
