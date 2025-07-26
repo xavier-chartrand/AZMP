@@ -153,15 +153,6 @@ xyz_cartesian_index = [1,0,2]
 # */
 magdec = 0
 
-# Get magnetic declination
-# /*
-# Magnetic declination is prior corrected for iml-4 2023 and 2024.
-# For previous years, a magnetic declination value could be estimated with
-# with latitude, longitude = 48.6667 N, 68.5811 W, on a specified date, from:
-#  https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml
-# */
-magdec = 0
-
 # Get angle convention for the specific controller (0: positive, 1: negative)
 # /*
 # Tilt should be included as a second-order correction
@@ -176,14 +167,14 @@ else:
     xyz_monitor_sign = [1,1,1]                  # -x N, -y E, -z ^
     hpr_monitor_sign = [1,1,0]                  # TN, -p cc, +r cc
 
-# Update raw data directory with buoy and year
+# Update data directories with buoy and year
 adata_dir = '%s%s/'%(adata_dir,buoy)
 rdata_dir = '%s%s/%d/'%(rdata_dir,buoy,year)
 lvl0_dir  = '%s%s/'%(lvl0_dir,buoy)
 lvl1_dir  = '%s%s/'%(lvl1_dir,buoy)
 lvl2_dir  = '%s%s/'%(lvl2_dir,buoy)
 
-# Update files with directories, buoy and year
+# Update files with directory, buoy and year
 acl_fmt      = '%swavebuoy_%s_%s_%d.nc'
 aux_fmt      = '%s%s_%s_%d.nc'
 buoy_name    = buoy.replace('-','')
@@ -195,7 +186,7 @@ lvl0_file[1] = acl_fmt%(lvl0_dir,buoy_name,lvl0_file[1].split('.nc')[0],year)
 lvl1_file    = acl_fmt%(lvl1_dir,buoy_name,lvl1_file.split('.nc')[0],year)
 lvl2_file    = acl_fmt%(lvl2_dir,buoy_name,lvl2_file.split('.nc')[0],year)
 
-# Define lvl0, 1 and 2 variables
+# Define level 0, 1 and 2 variables
 lvl0_vars = ['x','y','z']
 lvl1_vars = ['sxx','syy','szz','cxy','qxz','qyz','a1','b1','a2','b2']
 lvl2_vars = ['hm0','tmn10','tm01','tm02','fp','wp','tm','tp','sm','sp']
