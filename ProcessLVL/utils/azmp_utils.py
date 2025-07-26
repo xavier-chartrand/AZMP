@@ -2,6 +2,7 @@
 # Author: Xavier Chartrand
 # Email : x.chartrand@protonmail.me
 #         xavier.chartrand@ec.gc.ca
+#         xavier.chartrand@uqar.ca
 
 '''
 AZMP buoy utilities.
