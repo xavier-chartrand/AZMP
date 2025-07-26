@@ -19,9 +19,9 @@ import xarray as xr
 import warnings
 # Functions
 from copy import deepcopy
-from numpy import arange,arctan2,array,complex128,conj,copy,cos,cosh,diff,exp,\
-                  floor,hstack,imag,isnan,mean,nan,nanargmax,nansum,nancumsum,\
-                  ones,real,sin,sinh,shape,sqrt,tan,tanh,where
+from numpy import arange,arctan2,array,copy,cos,cosh,conj,diff,exp,hstack,\
+                  imag,isnan,mean,nan,nanargmax,nansum,nancumsum,nanmean,ones,\
+                  real,sin,sinh,shape,sqrt,std,tan,tanh,where,zeros
 from numpy.fft import rfft,rfftfreq
 from scipy.signal import csd
 from scipy.signal.windows import get_window as getWindow
@@ -335,9 +335,9 @@ def writeLvl0(lvl_d,qfst_d):
     areg_dt   = lvl_d['Info']['Aux_Regular_Length']
     fs        = lvl_d['Info']['Sampling_Frequency']
     aux_file  = lvl_d['Input']['Aux_File']
+    lvl0_vars = lvl_d['Input']['LVL0_Vars']
     file_list = lvl_d['Input']['Raw_File_List']
     hrows     = lvl_d['Input']['Raw_Header_Rows']
-    lvl0_vars = lvl_d['Input']['LVL0_Vars']
     afac      = lvl_d['Wave_Monitor']['Amplitude_Factor']
     xyz_ci    = lvl_d['Wave_Monitor']['XYZ_Cartesian_Index']
     xyz_ms    = lvl_d['Wave_Monitor']['XYZ_Monitor_Sign']
@@ -473,7 +473,7 @@ def writeLvl0(lvl_d,qfst_d):
         # */
 
         # Retrieve angles of orientation and correction type
-        its    = abs(reg_aux_ts-floor(ts/areg_dt+1)*areg_dt).argmin()
+        its    = abs(reg_aux_ts-np.floor(ts/areg_dt+1)*areg_dt).argmin()
         hh     = aux_d['Buoy_Heading']['Reg'][its]
         pp     = nan # /* aux_d['Buoy_Pitching']['Reg'][its] */
         rr     = nan # /* aux_d['Buoy_Rolling']['Reg'][its] */
@@ -692,7 +692,7 @@ def writeLvl1(lvl_d,qfst_d):
     bwfilt = getBWFilter(freq,lvl_d['Filtering'])
 
     # Initialize outputs
-    csd_nanpad                  = nan*ones(len(freq),dtype=complex128)
+    csd_nanpad                  = nan*ones(len(freq),dtype=np.complex128)
     qf_h_csd,qf_v_csd,qf_hv_csd = [[] for _ in range(3)]
     for v in lvl1_vars: exec(f"global {v}; {v}=[]",globals(),locals())
 
@@ -730,15 +730,15 @@ def writeLvl1(lvl_d,qfst_d):
             csxx,csyy,csxy,csxz,csyz = [csd_nanpad for _ in range(5)]
 
         # Compute and apply transfer function for accelerations
-        h_x  = -1j*om**2*cosh(wnum*(H+zpos))/sinh(wnum*H)
-        h_y  = -1j*om**2*cosh(wnum*(H+zpos))/sinh(wnum*H)
-        h_z  = -om**2*sinh(wnum*(H+zpos))/sinh(wnum*H)
-        csxx/= h_x*conj(h_x)
-        csyy/= h_y*conj(h_y)
-        cszz/= h_z*conj(h_z)
-        csxy/= h_x*conj(h_y)
-        csxz/= h_x*conj(h_z)
-        csyz/= h_y*conj(h_z)
+        h_x  = -1j*om**2*np.cosh(wnum*(H+zpos))/np.sinh(wnum*H)
+        h_y  = -1j*om**2*np.cosh(wnum*(H+zpos))/np.sinh(wnum*H)
+        h_z  = -om**2*np.sinh(wnum*(H+zpos))/np.sinh(wnum*H)
+        csxx/= h_x*np.conj(h_x)
+        csyy/= h_y*np.conj(h_y)
+        cszz/= h_z*np.conj(h_z)
+        csxy/= h_x*np.conj(h_y)
+        csxz/= h_x*np.conj(h_z)
+        csyz/= h_y*np.conj(h_z)
 
         # Apply filter
         csxx*= bwfilt
