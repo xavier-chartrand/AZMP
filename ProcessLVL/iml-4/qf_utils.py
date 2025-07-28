@@ -597,10 +597,12 @@ def getQFCombined(qfa,qfb,qf_ord):
         sec = sqb
     else:
         prm = pqa
-        i_a = where([q==sqa for q in qf_ord])[0][0] if sqa!='0' else nan
-        i_b = where([q==sqb for q in qf_ord])[0][0] if sqb!='0' else nan
-        sec = array(qf_ord)[nanmin([i_a,i_b])] if ~isnan(i_a) or ~isnan(i_a)\
-              else 0
+        i_a = where([q==sqa for q in qf_ord])[0][0]\
+              if sqa in qf_ord and sqa!='0' else nan
+        i_b = where([q==sqb for q in qf_ord])[0][0]\
+              if sqb in qf_ord and sqb!='0' else nan
+        sec = array(qf_ord)[int(nanmin([i_a,i_b]))]\
+              if ~isnan(i_a) or ~isnan(i_a) else 0
 
     # Return combined quality flag
     return '%s.%s'%(prm,sec)

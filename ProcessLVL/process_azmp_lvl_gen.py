@@ -286,9 +286,10 @@ lvl_d = {'Info':{'Id':buoy,
                       'H':H}}
 
 ## QUALITY FLAG PARAMETERS
-testinit   = []
-test_order = ['18','14','15','20','19','16','17','13','12','10','NH','9','11']
-l2v_order  = ['hm0','tmn10','tm01','tm02','fp','tm','tp','sm','sp']
+testinit      = []
+test_order_st = ['13','12','10','9','11']
+test_order_lt = ['18','14','15','20','19','16','17','12','9']
+l2v_order     = ['hm0','tmn10','tm01','tm02','fp','tm','tp','sm','sp']
 
 # Short-term
 qfst_d = {'Test_9':{'Do_Test':True,
@@ -327,7 +328,7 @@ qfst_d = {'Test_9':{'Do_Test':True,
                      'QF':testinit,
                      'Type':'h',
                      'Update_Data':False},
-          'Test_Order':test_order}
+          'Test_Order':test_order_st}
 
 # Long-term
 qflt_d = {'Test_14':{'Do_Test':False,
@@ -369,7 +370,7 @@ qflt_d = {'Test_14':{'Do_Test':False,
                      'QF':testinit},
           'Tickers_Order':bwp_tickers,
           'LVL2_Vars_Order':l2v_order,
-          'Test_Order':test_order}
+          'Test_Order':test_order_lt}
 
 ## OUTPUTS
 # Write 'lvl0' acceleration data and auxiliary variables

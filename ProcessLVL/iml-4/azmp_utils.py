@@ -507,7 +507,7 @@ def writeLvl0(lvl_d,qfst_d):
         aux_d[k]['Reg'][iflip] = copy(aux_d[k]['Reg'][iflip]-360)
 
     ## QUALITY CONTROL FOR SHORT-TERM ACCELERATION TIME SERIES
-    # Format ST test dictionnaries for each variable
+    # Append "qf_nh"
     qfst_d['Test_NH']['QF'] = qf_nh
 
     # Loop over "lvl0_vars"
