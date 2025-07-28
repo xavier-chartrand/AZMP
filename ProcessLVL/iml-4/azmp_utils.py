@@ -511,9 +511,18 @@ def writeLvl0(lvl_d,qfst_d):
     qfst_d['Test_NH']['QF'] = qf_nh
 
     # Loop over "lvl0_vars"
-    for v in lvl0_vars:
-        exec(f"global qfst_{v}; qfst_{v}=deepcopy(qfst_d)",globals(),locals())
+    for i in range(len(lvl0_vars)):
+        # Get variable and test parameters
+        v       = lvl0_vars[i]
+        vname   = 'Acceleration_%s'%(v.upper())
+        imin_11 = qfst_d['Test_11']['imin'][i]
+        imax_11 = qfst_d['Test_11']['imax'][i]
+        lmin_11 = qfst_d['Test_11']['lmin'][i]
+        lmax_11 = qfst_d['Test_11']['lmax'][i]
         t_type = 'h' if v in ['x','y'] else 'v' if v in ['z'] else None
+
+        # Create test parameter dictionnary
+        exec(f"global qfst_{v}; qfst_{v}=deepcopy(qfst_d)",globals(),locals())
 
         for k in qfst_d.keys():
             if k!='Test_Order':
@@ -526,10 +535,13 @@ def writeLvl0(lvl_d,qfst_d):
                 exec(f"if not qfst_{v}[k]['Do_Test']: qfst_{v}[k]['QF']=[]",
                      globals(),locals())
 
-    # Compute acceleration quality flag
-    for i in range(len(lvl0_vars)):
-        v     = lvl0_vars[i]
-        vname = 'Acceleration_%s'%(v.upper())
+        # Update test 11
+        exec(f"qfst_{v}['Test_11']['imin']=imin_11",globals(),locals())
+        exec(f"qfst_{v}['Test_11']['imax']=imax_11",globals(),locals())
+        exec(f"qfst_{v}['Test_11']['lmin']=lmin_11",globals(),locals())
+        exec(f"qfst_{v}['Test_11']['lmax']=lmax_11",globals(),locals())
+
+        # Compute acceleration quality flag
         exec(f"global {v}_acl; global qf_{v}_acl;"+\
              f"{v}_acl,qf_{v}_acl=getSTQF(data[:,i,:],vname,qfst_{v})",
              globals(),locals())
