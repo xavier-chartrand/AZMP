@@ -96,7 +96,7 @@ from azmp_utils import *
 # lvl2_file:    'lvl2' file to write
 # ---------- #
 buoy       = 'iml-4'
-year       = 2024
+year       = 2023
 H          = 335
 clb        = 600
 
@@ -106,10 +106,10 @@ clb        = 600
 #ced        = '2021-11-07T13:00:00'
 #cbd        = '2022-05-18T00:00:00'
 #ced        = '2022-10-31T14:30:00'
-#cbd        = '2023-05-12T13:00:00'
-#ced        = '2023-10-23T05:00:00'
-cbd        = '2024-07-23T12:00:00'
-ced        = '2024-11-02T19:30:00'
+cbd        = '2023-05-12T13:00:00'
+ced        = '2023-10-23T05:00:00'
+#cbd        = '2024-07-23T12:00:00'
+#ced        = '2024-11-02T19:30:00'
 
 filt_bool  = True
 filt_type  = 'hp'
@@ -295,8 +295,8 @@ lvl_d = {'Info':{'Id':buoy,
 
 ## QUALITY FLAG PARAMETERS
 testinit      = []
-test_order_st = ['13','10','11','12','9']
-test_order_lt = ['18','14','15','20','19','16','17','NH','12','9']
+test_order_st = ['13','10','11','9','12']
+test_order_lt = ['18','14','15','20','19','16','17','NH','9','12']
 l2v_order     = ['hm0','tmn10','tm01','tm02','fp','tm','tp','sm','sp']
 
 # Short-term
@@ -382,7 +382,7 @@ qflt_d = {'Test_14':{'Do_Test':False,
 
 ## OUTPUTS
 # Write 'lvl0' acceleration data and auxiliary variables
-writeLvl0(lvl_d,qfst_d)
+# writeLvl0(lvl_d,qfst_d)
 
 # Write 'lvl1' wave spectra
 writeLvl1(lvl_d,qfst_d)

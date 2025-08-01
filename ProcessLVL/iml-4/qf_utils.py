@@ -594,7 +594,10 @@ def getQFCombined(qfa,qfb,qf_ord):
     bexp_b = sqb in qf_ord
 
     if not bexp_a and not bexp_b:
-        prm,sec = '1','0'
+        prm = '9' if (pqa=='9' or pqb=='9') else\
+              '2' if (pqa=='2' and pqb=='2') else\
+              '1'
+        sec = '0'
     elif bexp_a and not bexp_b:
         prm,sec = pqa,sqa
     elif not bexp_a and bexp_b:
