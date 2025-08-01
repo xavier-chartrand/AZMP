@@ -589,20 +589,31 @@ def getQFCombined(qfa,qfb,qf_ord):
     pqa,sqa = [q for q in qfa.split('.')]
     pqb,sqb = [q for q in qfb.split('.')]
 
-    if pqa>pqb:
-        prm = pqa
-        sec = sqa
-    elif pqa<pqb:
-        prm = pqb
-        sec = sqb
+    # Check if "sqa","sqb" in "qf_ord"
+    bexp_a = sqa in qf_ord
+    bexp_b = sqb in qf_ord
+
+    if not bexp_a and not bexp_b:
+        prm,sec = '1','0'
+    elif bexp_a and not bexp_b:
+        prm,sec = pqa,sqa
+    elif not bexp_a and bexp_b:
+        prm,sec = pqb,sqb
     else:
-        prm = pqa
-        i_a = where([q==sqa for q in qf_ord])[0][0]\
-              if sqa in qf_ord and sqa!='0' else nan
-        i_b = where([q==sqb for q in qf_ord])[0][0]\
-              if sqb in qf_ord and sqb!='0' else nan
-        sec = array(qf_ord)[int(nanmin([i_a,i_b]))]\
-              if ~isnan(i_a) or ~isnan(i_a) else 0
+        if pqa>pqb:
+            prm = pqa
+            sec = sqa
+        elif pqa<pqb and sqb in qf_ord:
+            prm = pqb
+            sec = sqb
+        else:
+            prm = pqa
+            i_a = where([q==sqa for q in qf_ord])[0][0]\
+                  if sqa in qf_ord and sqa!='0' else nan
+            i_b = where([q==sqb for q in qf_ord])[0][0]\
+                  if sqb in qf_ord and sqb!='0' else nan
+            sec = array(qf_ord)[int(nanmin([i_a,i_b]))]\
+                  if ~isnan(i_a) or ~isnan(i_a) else 0
 
     # Return combined quality flag
     return '%s.%s'%(prm,sec)
