@@ -287,8 +287,8 @@ lvl_d = {'Info':{'Id':buoy,
 
 ## QUALITY FLAG PARAMETERS
 testinit      = []
-test_order_st = ['13','10','11','9','12']
-test_order_lt = ['18','14','15','20','19','16','17','NH','9','12']
+test_order_st = ['13','10','11','9','12','NH']
+test_order_lt = ['18','14','15','20','19','16','17','9','12','NH']
 l2v_order     = ['hm0','tmn10','tm01','tm02','fp','tm','tp','sm','sp']
 
 # Short-term
@@ -306,10 +306,10 @@ qfst_d = {'Test_9':{'Do_Test':True,
                      'Type':'hv',
                      'Update_Data':True},
           'Test_11':{'Do_Test':True,
-                     'imin':[-50,-50,-10],
-                     'imax':[50,50,10],
-                     'lmin':[-50,-50,-10],
-                     'lmax':[50,50,10],
+                     'imin':[-2*g,-2*g,-3*g],
+                     'imax':[2*g,2*g,-g],
+                     'lmin':[-2*g,-2*g,-3*g],
+                     'lmax':[2*g,2*g,-g],
                      'QF':testinit,
                      'Type':'hv',
                      'Update_Data':True},

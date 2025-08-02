@@ -146,14 +146,14 @@ def test11(st,*args):
     imin,imax,lmin,lmax = tuple(args)
 
     # Quit if all "NaN", return 9 (missing data)
-    if len(where(isnan(st))[0])==len(st): return st,9
+    if len(where(isnan(st))[0])==len(st): return 9
 
     # Check if values are in a valid range
     bexp_i = min(st)<imin or max(st)>imax
     bexp_l = min(st)<lmin or max(st)>lmax
-    if   bexp_i: return st,4                    # (4), out of "i" range
-    elif bexp_l: return st,3                    # (3), out of "l" range
-    else:        return st,1                    # (1), in range
+    if   bexp_i: return 4                       # (4), out of "i" range
+    elif bexp_l: return 3                       # (3), out of "l" range
+    else:        return 1                       # (1), in range
 
 # ----------
 def test12(st,*args):
